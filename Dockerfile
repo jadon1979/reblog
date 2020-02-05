@@ -14,6 +14,7 @@ RUN apt-get update && \
 
 RUN apt-get install -y git-core zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 \
   libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev nodejs nginx-extras yarn && \
+  libmysqlclient-dev && \
   rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/* && \
   mkdir -p /opt/apps/reblog && \
   gem install bundler && \
