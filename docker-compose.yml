@@ -1,0 +1,28 @@
+version: '3.5'
+services:
+  reblog:
+    image: reblog/apps:latest
+    build: .
+    tty: true
+    ports:
+      - 443:443
+      - 80:80
+      - 3000:3000
+    links:
+      - reblogsql
+    volumes:
+      - .:/opt/apps/reblog
+      - ${DEPLOY_SSHKEY_NAME}:/home/deploy/.ssh/id_rsa:ro
+      - ${DEPLOY_SSHKEY_NAME}.pub:/home/deploy/.ssh/id_rsa.pub:ro
+      - ${DEPLOY_SSH_CONFIG}:/home/deploy/.ssh/config
+  reblogsql:
+    image: mysql:8.0
+    hostname: reblogsql
+    domainname: reblogsql
+    environment:
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./data/8.0/:/var/lib/mysql
+    ports:
+      - 3308:3306
